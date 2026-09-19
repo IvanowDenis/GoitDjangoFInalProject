@@ -23,7 +23,17 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+      
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"                         # Пробрасываем 80 порт наружу в мир
+    volumes:
+      - ./nginx:/etc/nginx/conf.d       # Прокидываем конфиг, который создали на Шаге 2
+      - static_volume:/app/staticfiles  # Монтируем тот же том со статикой для чтения Nginx
+    depends_on:
+      - web
 
 volumes:
   redis_data:
-
+  static_volume:
